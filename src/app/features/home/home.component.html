@@ -1,0 +1,7 @@
+<ng-container *ngIf="isLoggedIn else notLoggedIn">
+  <app-gift-create></app-gift-create>
+</ng-container>
+
+<ng-template #notLoggedIn>
+  <app-login></app-login>
+</ng-template>
