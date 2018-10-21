@@ -1,6 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
+import {
+  SessionModule
+} from '@giftdibs/session';
+
+import {
+  environment
+} from 'src/environments/environment';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderModule } from './shared/modules/header/header.module';
@@ -12,9 +20,9 @@ import { HeaderModule } from './shared/modules/header/header.module';
   imports: [
     AppRoutingModule,
     BrowserModule,
-    HeaderModule
+    HeaderModule,
+    SessionModule.forRoot(environment.apiUrl)
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

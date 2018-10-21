@@ -4,6 +4,10 @@ import {
   OnInit
 } from '@angular/core';
 
+import {
+  SessionService
+} from '@giftdibs/session';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -13,5 +17,12 @@ import {
 export class HomeComponent implements OnInit {
   public isLoggedIn = false;
 
-  public ngOnInit(): void {}
+  constructor(
+    private sessionService: SessionService
+  ) { }
+
+  public ngOnInit(): void {
+    console.log('user?', this.sessionService.user);
+    this.isLoggedIn = this.sessionService.isLoggedIn;
+  }
 }

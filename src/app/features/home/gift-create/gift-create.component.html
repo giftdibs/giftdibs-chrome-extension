@@ -1,1 +1,41 @@
-gift form
+<h1>
+  New gift
+</h1>
+
+<div *ngIf="isLoading">Loading...</div>
+
+<form *ngIf="!isLoading"
+  aria-label="Add a new gift"
+  [formGroup]="giftForm"
+  (ngSubmit)="submit()"
+  novalidate
+>
+  <label>Wish list</label>
+  <select
+    formControlName="wishListId"
+  >
+    <option *ngFor="let wishList of wishLists"
+      [value]="wishList.id"
+    >
+      {{ wishList.name }}
+    </option>
+  </select>
+
+  <label>Name</label>
+  <input
+    formControlName="name"
+    type="text"
+  />
+
+  <label>Budget</label>
+  <input
+    formControlName="budget"
+    type="number"
+  />
+  <button
+    class="gd-button gd-button-primary"
+    type="submit"
+    [disabled]="giftForm.disabled">
+    Submit
+  </button>
+</form>

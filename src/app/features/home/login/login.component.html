@@ -1,1 +1,25 @@
-login
+<h1>
+  Log in
+</h1>
+
+<form
+  aria-label="Log in to GiftDibs"
+  [formGroup]="loginForm"
+  (ngSubmit)="submit()"
+  novalidate
+>
+  <input
+    formControlName="emailAddress"
+    type="email"
+  />
+  <input
+    formControlName="password"
+    type="password"
+  />
+  <button
+    class="gd-button gd-button-primary"
+    type="submit"
+    [disabled]="loginForm.disabled">
+    Log in
+  </button>
+</form>
