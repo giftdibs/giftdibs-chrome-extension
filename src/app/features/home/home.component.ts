@@ -22,7 +22,6 @@ export class HomeComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
-    console.log('user?', this.sessionService.user);
     this.isLoggedIn = this.sessionService.isLoggedIn;
   }
 }

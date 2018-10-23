@@ -10,6 +10,9 @@
   (ngSubmit)="submit()"
   novalidate
 >
+  <input type="text" formControlName="imageUrl" />
+  <img src="{{ imageUrlValue }}" />
+
   <label>Wish list</label>
   <select
     formControlName="wishListId"

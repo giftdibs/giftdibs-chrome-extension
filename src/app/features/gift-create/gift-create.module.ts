@@ -12,6 +12,7 @@ import {
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { GiftCreateRoutingModule } from './gift-create-routing.module';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { CommonModule } from '@angular/common';
   imports: [
     CommonModule,
     FormsModule,
+    GiftCreateRoutingModule,
     ReactiveFormsModule
   ],
   exports: [

@@ -3,7 +3,9 @@
   "version": "1.0",
   "description": "Share wish lists with your friends and family. Dib gifts to let other people know what you're getting them.",
   "manifest_version": 2,
-  "permissions": ["activeTab"],
+  "permissions": [
+    "activeTab"
+  ],
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "background": {
     "scripts": ["background.js"],

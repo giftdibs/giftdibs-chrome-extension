@@ -6,23 +6,15 @@ import {
   CommonModule
 } from '@angular/common';
 
-import {
-  GiftCreateModule
-} from './gift-create';
-
-import {
-  LoginModule
-} from './login';
-
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
     CommonModule,
     HomeRoutingModule,
-    GiftCreateModule,
-    LoginModule
+    RouterModule
   ],
   declarations: [
     HomeComponent

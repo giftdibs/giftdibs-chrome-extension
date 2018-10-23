@@ -5,10 +5,16 @@ import {
 import {
   HeaderComponent
 } from './header.component';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
     HeaderComponent
+  ],
+  imports: [
+    CommonModule,
+    RouterModule
   ],
   exports: [
     HeaderComponent

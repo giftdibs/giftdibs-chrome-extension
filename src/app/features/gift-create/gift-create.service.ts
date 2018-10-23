@@ -7,7 +7,7 @@ import {
 } from '@angular/common/http';
 
 import {
-  Observable
+  Observable, Observer
 } from 'rxjs';
 
 import {
@@ -42,5 +42,32 @@ export class GiftCreateService {
         map((result: any) => result.data.wishLists),
         share()
       );
+  }
+
+  public uploadGiftThumbnail(file: any, giftId: string): Observable<any> {
+    return this.uploadFile(file, `${this.resourceUrl}/gifts/${giftId}/thumbnails`);
+  }
+
+  // TODO: Consider wrapping this functionality in a new NPM module to
+  // be shared by all Angular clients.
+  private uploadFile(file: any, url: string): Observable<any> {
+    return Observable.create((observer: Observer<any>) => {
+      const data = new FormData();
+      data.append('file', file);
+
+      this.http.post(
+        url,
+        data
+      ).subscribe(
+        (result: any) => {
+          observer.next(result);
+          observer.complete();
+        },
+        (err: any) => {
+          observer.error(err);
+          observer.complete();
+        }
+      );
+    });
   }
 }

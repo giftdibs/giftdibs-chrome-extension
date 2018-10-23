@@ -19,6 +19,7 @@ import {
 import {
   LoginService
 } from './login.service';
+import { Router } from '@angular/router';
 
 // import {
 //   environment
@@ -37,6 +38,7 @@ export class LoginComponent implements OnInit {
     private changeDetector: ChangeDetectorRef,
     private formBuilder: FormBuilder,
     private loginService: LoginService,
+    private router: Router,
     private sessionService: SessionService
   ) { }
 
@@ -83,6 +85,6 @@ export class LoginComponent implements OnInit {
   // TODO: login via facebook
 
   private redirect(): void {
-    alert('Login successful!');
+    this.router.navigate(['/create']);
   }
 }
