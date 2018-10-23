@@ -30,7 +30,16 @@
             "styles": [
               "src/styles.sass"
             ],
-            "scripts": []
+            "scripts": [
+              {
+                "input": "src/scripts/background.js",
+                "bundleName": "background"
+              },
+              {
+                "input": "src/scripts/content-script.js",
+                "bundleName": "content-script"
+              }
+            ]
           },
           "configurations": {
             "production": {

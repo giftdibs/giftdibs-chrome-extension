@@ -3,8 +3,22 @@
   "version": "1.0",
   "description": "Share wish lists with your friends and family. Dib gifts to let other people know what you're getting them.",
   "manifest_version": 2,
+  "permissions": ["activeTab"],
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": [
+        "content-script.js"
+      ]
+    }
+  ],
   "browser_action": {
+    "default_title": "Launch GiftDibs",
     "default_popup": "index.html",
     "default_icon": {
       "16": "assets/icon-16x16.png",
