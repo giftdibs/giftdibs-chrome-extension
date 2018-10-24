@@ -28,7 +28,8 @@
               "src/manifest.json"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "./node_modules/@giftdibs/ux/css/giftdibs.css"
             ],
             "scripts": [
               {

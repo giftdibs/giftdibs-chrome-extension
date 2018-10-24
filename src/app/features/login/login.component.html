@@ -1,4 +1,4 @@
-<h1>
+<h1 class="app-heading">
   Log in
 </h1>
 
@@ -8,18 +8,29 @@
   (ngSubmit)="submit()"
   novalidate
 >
-  <input
-    formControlName="emailAddress"
-    type="email"
-  />
-  <input
-    formControlName="password"
-    type="password"
-  />
+  <gd-form-field [errors]="errors">
+    <input
+      class="gd-form-control"
+      formControlName="emailAddress"
+      placeholder="Email address"
+      type="email"
+    />
+  </gd-form-field>
+
+  <gd-form-field [errors]="errors">
+    <input
+      class="gd-form-control"
+      formControlName="password"
+      placeholder="Password"
+      type="password"
+    />
+  </gd-form-field>
+
   <button
     class="gd-button gd-button-primary"
     type="submit"
-    [disabled]="loginForm.disabled">
+    [disabled]="loginForm.disabled"
+  >
     Log in
   </button>
 </form>

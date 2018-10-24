@@ -20,6 +20,7 @@ import {
   LoginService
 } from './login.service';
 import { Router } from '@angular/router';
+import { AlertService } from '@giftdibs/ux';
 
 // import {
 //   environment
@@ -35,6 +36,7 @@ export class LoginComponent implements OnInit {
   public loginForm: FormGroup;
 
   constructor(
+    private alertService: AlertService,
     private changeDetector: ChangeDetectorRef,
     private formBuilder: FormBuilder,
     private loginService: LoginService,
@@ -64,7 +66,7 @@ export class LoginComponent implements OnInit {
         },
         (err: any) => {
           this.errors = err.error.errors;
-          alert(err.error.message);
+          this.alertService.error(err.error.message);
           this.loginForm.enable();
           this.changeDetector.markForCheck();
         }

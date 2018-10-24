@@ -112,7 +112,12 @@ export class ChromeExtensionAdapter implements OnInit, OnDestroy {
               throw response.error;
             }
 
-            observer.next(response.result);
+            if (!response) {
+              observer.next({});
+            } else {
+              observer.next(response.result);
+            }
+
             observer.complete();
           }
         );

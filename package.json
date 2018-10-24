@@ -21,6 +21,7 @@
     "@angular/platform-browser-dynamic": "~7.0.0",
     "@angular/router": "~7.0.0",
     "@giftdibs/session": "1.0.0-rc.3",
+    "@giftdibs/ux": "1.0.0-alpha.4",
     "core-js": "^2.5.4",
     "giftdibs-product-page-scraper": "github:giftdibs/product-page-scraper",
     "rxjs": "~6.3.3",

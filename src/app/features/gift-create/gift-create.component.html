@@ -1,44 +1,128 @@
-<h1>
-  New gift
+<gd-wait *ngIf="isLoading || !isChromeReady"></gd-wait>
+
+<h1 class="app-heading">
+  Add a gift
 </h1>
 
-<div *ngIf="isLoading">Loading...</div>
-
-<form *ngIf="!isLoading"
-  aria-label="Add a new gift"
-  [formGroup]="giftForm"
-  (ngSubmit)="submit()"
-  novalidate
->
-  <input type="text" formControlName="imageUrl" />
-  <img src="{{ imageUrlValue }}" />
-
-  <label>Wish list</label>
-  <select
-    formControlName="wishListId"
+<ng-container *ngIf="(wishLists && wishLists.length) else noWishLists">
+  <form *ngIf="!isLoading"
+    aria-label="Add a new gift"
+    [formGroup]="giftForm"
+    (ngSubmit)="submit()"
+    novalidate
   >
-    <option *ngFor="let wishList of wishLists"
-      [value]="wishList.id"
+    <label
+      class="gd-control-label"
     >
-      {{ wishList.name }}
-    </option>
-  </select>
+      Picture
+    </label>
+    <gd-form-field>
+      <gd-image-uploader
+        formControlName="imageUrl"
+        [allowUrl]="false"
+        (selectFile)="onSelectFile($event)"
+        (removeFile)="onRemoveFile()"
+      >
+      </gd-image-uploader>
+    </gd-form-field>
 
-  <label>Name</label>
-  <input
-    formControlName="name"
-    type="text"
-  />
+    <label
+      class="gd-control-label"
+    >
+      Name
+    </label>
+    <gd-form-field [errors]="errors">
+      <input
+        class="gd-form-control"
+        formControlName="name"
+        type="text"
+      />
+    </gd-form-field>
 
-  <label>Budget</label>
-  <input
-    formControlName="budget"
-    type="number"
-  />
-  <button
-    class="gd-button gd-button-primary"
-    type="submit"
-    [disabled]="giftForm.disabled">
-    Submit
-  </button>
-</form>
+    <gd-form-field [errors]="errors">
+      <label
+        class="gd-control-label"
+        for="gd-gift-edit-notes"
+      >
+        Notes
+      </label>
+      <textarea
+        class="gd-form-control"
+        formControlName="notes"
+        id="gd-gift-edit-notes"
+        maxlength="2000"
+        #giftNotes
+      >
+      </textarea>
+      <gd-character-counter
+        [inputReference]="giftNotes"
+        maxCharacters="2000"
+      >
+      </gd-character-counter>
+    </gd-form-field>
+
+    <label
+      class="gd-control-label"
+    >
+      Wish list
+    </label>
+    <gd-form-field [errors]="errors">
+      <select
+        class="gd-form-control"
+        formControlName="wishListId"
+      >
+        <option *ngFor="let wishList of wishLists"
+          [value]="wishList.id"
+        >
+          {{ wishList.name }}
+        </option>
+      </select>
+    </gd-form-field>
+
+    <gd-form-field [errors]="errors">
+      <label
+        class="gd-control-label"
+        for="gd-gift-edit-priority"
+      >
+        Priority
+      </label>
+      <select
+        class="gd-form-control"
+        formControlName="priority"
+        id="gd-gift-edit-priority"
+      >
+        <option value="5">Very high</option>
+        <option value="4">High</option>
+        <option value="3">Medium</option>
+        <option value="2">Low</option>
+        <option value="1">Very low</option>
+      </select>
+    </gd-form-field>
+
+    <label
+      class="gd-control-label"
+    >
+      Budget
+    </label>
+    <gd-form-field [errors]="errors">
+      <input
+        class="gd-form-control"
+        formControlName="budget"
+        type="number"
+      />
+    </gd-form-field>
+
+    <button
+      class="gd-button gd-button-primary"
+      type="submit"
+      [disabled]="giftForm.disabled">
+      Submit
+    </button>
+  </form>
+</ng-container>
+
+<ng-template #noWishLists>
+  <gd-notice>
+    Please <a [attr.href]="siteUrl">create a wish list at GiftDibs.com</a> before using this Chrome extension.
+  </gd-notice>
+</ng-template>

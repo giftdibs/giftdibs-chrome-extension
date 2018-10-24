@@ -3,10 +3,20 @@ import {
 } from '@angular/core';
 
 import {
+  CommonModule
+} from '@angular/common';
+
+import {
+  RouterModule
+} from '@angular/router';
+
+import {
+  ThumbnailModule
+} from '@giftdibs/ux';
+
+import {
   HeaderComponent
 } from './header.component';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -14,7 +24,8 @@ import { RouterModule } from '@angular/router';
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    ThumbnailModule
   ],
   exports: [
     HeaderComponent

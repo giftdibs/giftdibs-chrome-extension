@@ -1,7 +1,9 @@
 .app-wrapper {
-  width: 350px;
+  min-height: 200px;
+  position: relative;
 }
 
 .app-body {
-  padding: 30px;
+  padding-bottom: 20px;
+  min-width: 340px;
 }

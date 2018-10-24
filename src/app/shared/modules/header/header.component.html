@@ -1,17 +1,44 @@
 <div class="app-header">
-  <a routerLink="/" routerLinkActive="active">Home</a><br>
-  <a routerLink="/login">Login</a><br>
-  <a routerLink="/create">Create</a><br>
+  <div class="app-header-container gd-spacing-padding-squish">
+    <div class="app-header-main-section">
+      <a
+        class="app-logo"
+        target="_blank"
+        title="Go to GiftDibs.com"
+        [attr.href]="siteUrl"
+      >
+        <gd-thumbnail
+          imageSource="assets/icon-128x128.png"
+          size="xs"
+          type="user"
+        >
+        </gd-thumbnail>
+      </a>
+    </div>
 
-  <a [attr.href]="siteUrl" target="_blank">
-    Go to GiftDibs.com
-  </a>
-
-  <button
-    type="button"
-    (click)="logout()"
-  >
-    Log out
-  </button>
-
+    <div class="app-header-user-section">
+      <ng-container *ngIf="sessionUser">
+        <a
+          class="app-header-link"
+          href="{{ siteUrl }}/users/{{ sessionUser?.id }}"
+          target="_blank"
+          title="Visit profile"
+        >
+          <gd-thumbnail
+            size="xs"
+            type="user"
+            [imageSource]="sessionUser.avatarUrl"
+          >
+          </gd-thumbnail>
+        </a>
+        <button
+          class="gd-button gd-button-link app-header-link"
+          type="button"
+          (click)="logout()"
+        >
+          Log out
+        </button>
+      </ng-container>
+    </div>
+  </div>
 </div>

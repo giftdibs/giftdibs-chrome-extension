@@ -13,19 +13,20 @@ import {
   FormArray
 } from '@angular/forms';
 
-import { GiftCreateService } from './gift-create.service';
-
 import { SessionService } from '@giftdibs/session';
+import { AlertService } from '@giftdibs/ux';
 
+import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+
+import { GiftCreateService } from './gift-create.service';
 
 import { ChromeExtensionAdapter } from 'src/app/shared/modules/chrome-adapter';
 import { ScraperResult } from 'src/app/shared/modules/chrome-adapter/scraper-result';
-import { Observable } from 'rxjs';
 
-// import {
-//   environment
-// } from 'src/environments/environment';
+import {
+  environment
+} from 'src/environments/environment';
 
 @Component({
   selector: 'app-gift-create',
@@ -38,8 +39,10 @@ import { Observable } from 'rxjs';
 export class GiftCreateComponent implements OnInit {
   public errors: any[] = [];
   public giftForm: FormGroup;
+  public siteUrl = environment.siteUrl;
   public wishLists: any[];
   public isLoading = true;
+  public isChromeReady = false;
 
   public get imageUrlValue(): string {
     return this.giftForm.get('imageUrl').value;
@@ -52,6 +55,7 @@ export class GiftCreateComponent implements OnInit {
   private newImageFile: any;
 
   constructor(
+    private alertService: AlertService,
     private changeDetector: ChangeDetectorRef,
     private chromeExtension: ChromeExtensionAdapter,
     private formBuilder: FormBuilder,
@@ -61,49 +65,35 @@ export class GiftCreateComponent implements OnInit {
 
   public ngOnInit(): void {
     this.createForm();
-
-    this.chromeExtension.scrapeActiveTabContents()
-      .subscribe((result: ScraperResult) => {
-        // TODO: let the user choose!
-        const imageDataUrl = result.images[0].dataUrl;
-        this.newImageFile = this.dataURLtoFile(imageDataUrl, 'temp.jpg');
-
-        this.giftForm.get('imageUrl').setValue(imageDataUrl);
-        this.giftForm.get('budget').setValue(result.price);
-        this.giftForm.get('name').setValue(result.name);
-
-        this.chromeExtension.tabUrl.subscribe((tabUrl: string) => {
-          this.externalUrls.push(
-            this.formBuilder.group(
-              Object.assign({
-                price: undefined,
-                url: undefined
-              }, {
-                price: result.price,
-                url: tabUrl
-              })
-            )
-          );
-
-          this.changeDetector.markForCheck();
-        });
-      });
+    this.tryFetchProductInfo();
 
     const userId = this.sessionService.user.id;
 
     this.giftCreateService.getAllWishListsByUserId(userId)
       .subscribe((wishLists: any[]) => {
-        if (!wishLists || wishLists.length === 0) {
-          alert('You need to create a wish list!');
-          // TODO: Let them create a new wish list?
-          return;
+        if (wishLists && wishLists.length) {
+          this.wishLists = wishLists;
+          this.giftForm.get('wishListId').setValue(this.wishLists[0].id);
         }
 
-        this.wishLists = wishLists;
-        this.giftForm.get('wishListId').setValue(this.wishLists[0].id);
         this.isLoading = false;
         this.changeDetector.markForCheck();
       });
+  }
+
+  public onSelectFile(args: any): void {
+    const reader = new FileReader();
+
+    reader.onload = (e: any) => {
+      this.giftForm.get('imageUrl').setValue(e.target.result);
+    };
+
+    reader.readAsDataURL(args.file);
+    this.newImageFile = args.file;
+  }
+
+  public onRemoveFile(): void {
+    this.giftForm.get('imageUrl').reset();
   }
 
   public submit(): void {
@@ -139,28 +129,69 @@ export class GiftCreateComponent implements OnInit {
               )
             .subscribe(
               () => {
-                alert('Gift created with an image!');
                 this.createForm();
+                this.alertService.success(result.message);
                 this.giftForm.get('wishListId').setValue(this.wishLists[0].id);
               },
               (err: any) => {
-                alert(err.error.message);
+                this.alertService.error(err.error.message);
               }
             );
 
             return;
           }
 
-          alert('Gift created without an image.');
           this.createForm();
+          this.alertService.success(result.message);
           this.giftForm.get('wishListId').setValue(this.wishLists[0].id);
         },
         (err: any) => {
           const error = err.error;
-          alert(error.message);
+          this.alertService.error(error.message);
           this.errors = error.errors;
         }
       );
+  }
+
+  private tryFetchProductInfo(): void {
+    this.chromeExtension.scrapeActiveTabContents()
+      .subscribe((result: ScraperResult) => {
+        if (result.images && result.images.length) {
+          const imageDataUrl = result.images[0].dataUrl;
+          this.newImageFile = this.dataURLtoFile(imageDataUrl, 'temp.jpg');
+          this.giftForm.get('imageUrl').setValue(imageDataUrl);
+        }
+
+        if (result.price) {
+          this.giftForm.get('budget').setValue(result.price);
+        }
+
+        this.giftForm.get('name').setValue(result.name);
+
+        this.isChromeReady = true;
+        this.changeDetector.detectChanges();
+
+        // Add an external url?
+        this.chromeExtension.tabUrl.subscribe((tabUrl: string) => {
+          if (tabUrl.indexOf('amazon.com') > -1) {
+            tabUrl += '&tag=giftdibs-20';
+          }
+
+          this.externalUrls.push(
+            this.formBuilder.group(
+              Object.assign({
+                price: undefined,
+                url: undefined
+              }, {
+                price: result.price,
+                url: tabUrl
+              })
+            )
+          );
+
+          this.changeDetector.detectChanges();
+        });
+      });
   }
 
   private createForm(): void {

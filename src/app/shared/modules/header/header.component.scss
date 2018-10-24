@@ -1,5 +1,38 @@
+@import 'node_modules/@giftdibs/ux/scss/variables';
+
 .app-header {
-  background-color: #f2f2f2;
-  padding: 10px;
+  background-color: #fff;
+  border-bottom: 1px solid $gd-color-neutral-faint;
   margin-bottom: 10px;
+  font-size: 85%;
+}
+
+// .app-logo {
+//   width: 38px;
+//   height: 38px;
+//   display: block;
+
+//   img {
+//     display: block;
+//     width: 100%;
+//   }
+// }
+
+.app-header-container {
+  display: flex;
+  align-items: center;
+}
+
+.app-header-main-section {
+  flex: 1 1 auto;
+}
+
+.app-header-user-section {
+  flex: 0 0 auto;
+  display: flex;
+}
+
+a.app-header-link {
+  display: inline-block;
+  margin-right: 10px;
 }
