@@ -5,7 +5,7 @@
 export const environment = {
   apiUrl: 'http://localhost:8080/v1',
   production: false,
-  siteUrl: 'https://giftdibs-browser.herokuapp.com/'
+  siteUrl: 'http://localhost:4200/'
 };
 
 /*

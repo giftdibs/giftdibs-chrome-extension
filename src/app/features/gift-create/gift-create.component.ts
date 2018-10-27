@@ -66,6 +66,7 @@ export class GiftCreateComponent implements OnInit {
   public ngOnInit(): void {
     this.createForm();
     this.tryFetchProductInfo();
+    console.log('siteurl:', this.siteUrl);
 
     const userId = this.sessionService.user.id;
 

@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --prod --output-hashing none",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -21,7 +21,7 @@
     "@angular/platform-browser-dynamic": "~7.0.0",
     "@angular/router": "~7.0.0",
     "@giftdibs/session": "1.0.0-rc.3",
-    "@giftdibs/ux": "1.0.0-alpha.4",
+    "@giftdibs/ux": "1.0.0-alpha.6",
     "core-js": "^2.5.4",
     "giftdibs-product-page-scraper": "github:giftdibs/product-page-scraper",
     "rxjs": "~6.3.3",
