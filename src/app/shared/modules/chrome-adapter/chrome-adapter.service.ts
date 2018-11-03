@@ -130,7 +130,7 @@ export class ChromeExtensionAdapter implements OnInit, OnDestroy {
     // See: https://stackoverflow.com/a/15979390/6178885
     const parser = document.createElement('a');
     parser.href = url;
-    const hostname = parser.hostname.replace('www.', '');
+    const hostname = parser.hostname.replace('www.', '').replace('www2.', '');
     return scraperConfigs[hostname] || this.defaultConfig;
   }
 }

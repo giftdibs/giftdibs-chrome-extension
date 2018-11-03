@@ -17,19 +17,21 @@ chrome.runtime.onMessage.addListener(
 
       eval(`${request.scraperFunction}`);
 
-      const promise = eval(`scrapeProductPage(${JSON.stringify(request.config)});`);
+      // Let the script "breathe".
+      setTimeout(() => {
+        const promise = eval(`scrapeProductPage(${JSON.stringify(request.config)});`);
 
-      promise.then((details) => {
-        sendResponse({
-          result: details
-        });
-      })
-      .catch((err) => {
-        sendResponse({
-          error: err.message
+        promise.then((details) => {
+          sendResponse({
+            result: details
+          });
+        })
+        .catch((err) => {
+          sendResponse({
+            error: err.message
+          });
         });
       });
-
 
       // Make this callback an async response:
       return true;
