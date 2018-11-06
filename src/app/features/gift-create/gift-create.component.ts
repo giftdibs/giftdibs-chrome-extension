@@ -14,7 +14,12 @@ import {
 } from '@angular/forms';
 
 import { SessionService } from '@giftdibs/session';
-import { AlertService } from '@giftdibs/ux';
+
+import {
+  AlertService,
+  dataUrlToFile,
+  toDataUrl
+} from '@giftdibs/ux';
 
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
@@ -157,9 +162,10 @@ export class GiftCreateComponent implements OnInit {
     this.chromeExtension.scrapeActiveTabContents()
       .subscribe((result: ScraperResult) => {
         if (result.images && result.images.length) {
-          const imageDataUrl = result.images[0].dataUrl;
-          this.newImageFile = this.dataURLtoFile(imageDataUrl, 'temp.jpg');
-          this.giftForm.get('imageUrl').setValue(imageDataUrl);
+          toDataUrl(result.images[0].url).then((dataUrl: string) => {
+            this.newImageFile = dataUrlToFile(dataUrl);
+            this.giftForm.get('imageUrl').setValue(dataUrl);
+          });
         }
 
         if (result.price) {
@@ -180,10 +186,8 @@ export class GiftCreateComponent implements OnInit {
           this.externalUrls.push(
             this.formBuilder.group(
               Object.assign({
-                price: undefined,
                 url: undefined
               }, {
-                price: result.price,
                 url: tabUrl
               })
             )
@@ -209,23 +213,6 @@ export class GiftCreateComponent implements OnInit {
         Validators.required
       ])
     });
-  }
-
-  // Convert data URL to File.
-  // https://stackoverflow.com/a/38936042/6178885
-  private dataURLtoFile(dataUrl: string, filename: string): File {
-    const arr = dataUrl.split(','),
-      mime = arr[0].match(/:(.*?);/)[1],
-      bstr = atob(arr[1]);
-
-    let n = bstr.length;
-    const u8arr = new Uint8Array(n);
-
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n);
-    }
-
-    return new File([u8arr], filename, { type: mime });
   }
 
   private uploadImage(file: any, giftId: string): Observable<any> {
