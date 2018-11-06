@@ -17,8 +17,7 @@ import { SessionService } from '@giftdibs/session';
 
 import {
   AlertService,
-  dataUrlToFile,
-  toDataUrl
+  dataUrlToFile
 } from '@giftdibs/ux';
 
 import { Observable } from 'rxjs';
@@ -162,10 +161,9 @@ export class GiftCreateComponent implements OnInit {
     this.chromeExtension.scrapeActiveTabContents()
       .subscribe((result: ScraperResult) => {
         if (result.images && result.images.length) {
-          toDataUrl(result.images[0].url).then((dataUrl: string) => {
-            this.newImageFile = dataUrlToFile(dataUrl);
-            this.giftForm.get('imageUrl').setValue(dataUrl);
-          });
+          const imageDataUrl = result.images[0].dataUrl;
+          this.newImageFile = dataUrlToFile(imageDataUrl);
+          this.giftForm.get('imageUrl').setValue(imageDataUrl);
         }
 
         if (result.price) {

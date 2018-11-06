@@ -2,8 +2,9 @@ export interface ScraperResult {
   name?: string;
   price?: number;
   images?: {
-    url: string;
+    dataUrl: string;
     height: number;
+    url: string;
     width: number;
   }[];
 }
